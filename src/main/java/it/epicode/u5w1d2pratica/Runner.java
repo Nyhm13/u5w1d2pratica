@@ -22,7 +22,7 @@ public class Runner implements CommandLineRunner {
         //serve per accedere al contesto di Spring
         AnnotationConfigApplicationContext ctx =
                 new AnnotationConfigApplicationContext(U5w1d2praticaApplication.class);
-        //abbiamo recuperato dal contesto di Spring un oggetto di tipo Drink
+        //abbiamo recuperato dal contesto di Spring un oggetto di tipo Menu
         Menu menu = ctx.getBean(Menu.class);
         menu.stampaMenu();
 
