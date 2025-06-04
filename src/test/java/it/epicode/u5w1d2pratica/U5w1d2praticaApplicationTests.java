@@ -1,15 +1,14 @@
 package it.epicode.u5w1d2pratica;
 
-import it.epicode.u5w1d2pratica.bean.Drink;
-import it.epicode.u5w1d2pratica.bean.Menu;
-import it.epicode.u5w1d2pratica.bean.Pizza;
-import it.epicode.u5w1d2pratica.bean.Tavolo;
+import it.epicode.u5w1d2pratica.bean.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import java.util.List;
 
 @SpringBootTest
 class U5w1d2praticaApplicationTests {
@@ -127,4 +126,45 @@ class U5w1d2praticaApplicationTests {
 				.count();
 		Assertions.assertEquals(quantitaAttesa, quantita );
 	}
+
+	// 1 proff verifica prezzo margherita
+	@Test
+	public void verificaPrezzoMargherita(){
+		Pizza margherita = ctx.getBean("margherita", Pizza.class);
+		Assertions.assertEquals(5, margherita.getPrezzo());
+	}
+
+
+	// 2 verifica il totale di un ordine
+	@Test
+	public  void  verificaTotaleOrdine(){
+		Tavolo t1= ctx.getBean("t1", Tavolo.class);
+		Ordine o1 = new Ordine();
+		o1.setNumCoperti(2);
+		o1.setTavolo(t1);
+		o1.setProdotti(List.of(ctx.getBean("cocaCola", Drink.class),
+				ctx.getBean("cocaCola", Drink.class),
+				ctx.getBean("margherita", Pizza.class),
+				ctx.getBean("primavera", Pizza.class)));
+		Assertions.assertEquals(21,o1.totaleOrdine());
+	}
+
+	//3
+	@Test
+	public void verificaNumProdottiMenu(){
+		Menu menu = ctx.getBean(Menu.class);
+		int numProdotti = menu.getProdotti().size();
+		Assertions.assertEquals(7, numProdotti);
+	}
+
+
+	// verifica costo coperto tavoli
+	@ParameterizedTest
+	@CsvSource({"t1,3", "t2,2", "t3,0"}) // cvs source ci permette di passare coppie di valori come parametri  rispetto al value source
+	//quindi il metodo riceve una coppia di valori, il primo è il nome del tavolo e il secondo è il costo atteso
+	public void verificaCostoCopertoTavoli (String nomeTavolo, double costoAtteso) {
+		Tavolo tavolo = ctx.getBean(nomeTavolo, Tavolo.class);
+		Assertions.assertEquals(costoAtteso, tavolo.getCostoCoperto());
+	}
+
 }
