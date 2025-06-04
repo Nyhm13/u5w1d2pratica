@@ -125,6 +125,6 @@ class U5w1d2praticaApplicationTests {
 		long quantita = menu.getProdotti().stream()
 				.filter(p -> p.getNome().equalsIgnoreCase(prodotto))
 				.count();
-		Assertions.assertEquals(quantitaAttesa, quantita, "La quantità del prodotto " + prodotto + " non è corretta.");
+		Assertions.assertEquals(quantitaAttesa, quantita );
 	}
 }
