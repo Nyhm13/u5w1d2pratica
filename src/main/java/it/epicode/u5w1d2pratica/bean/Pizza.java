@@ -1,5 +1,9 @@
 package it.epicode.u5w1d2pratica.bean;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -12,12 +16,14 @@ import java.util.List;
 @NoArgsConstructor
 @ToString(callSuper = true)
 //@Component
+@Entity
 public class Pizza extends Prodotto{
     //@Autowired(required = false)
     /*
     viene prima creata l'oggetto di tipo Pizza e poi viene iniettato in questo
     oggetto la lista di topping che ci sono nel contesto
      */
+    @ManyToMany(mappedBy = "pizze", fetch = FetchType.EAGER)
     private List<Topping> toppings;
 
     //@Autowired(required = false)
@@ -37,4 +43,6 @@ public class Pizza extends Prodotto{
     public void setToppings(List<Topping> toppings) {
         this.toppings = toppings;
     }
+
+
 }
